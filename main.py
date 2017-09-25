@@ -3,11 +3,13 @@ import time
 
 URL = "https://www.instagram.com/?hl=ja"
 WAIT_TIME = 1800
+WAIT_LOADING_TIME = 5
 
-class InstagramAgent():
+class InstagramAgent(object):
     def __init__(self, username, password):
         self.username = username
         self.password = password
+
 
     def like_instagram(self):
         driver = webdriver.Chrome('./chromedriver')
@@ -17,9 +19,12 @@ class InstagramAgent():
         driver.find_element_by_name('password').send_keys(self.password)
         driver.implicitly_wait(2)
         driver.find_elements_by_tag_name('button')[0].submit()
-        tags = driver.find_elements_by_class_name('coreSpriteHeartOpen')
-        for tag in tags:
-            tag.click()
+        for i in range(5):
+            tags = driver.find_elements_by_class_name('coreSpriteHeartOpen')
+            for tag in tags:
+                tag.click()
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(WAIT_LOADING_TIME)
         driver.quit()
 
     def like_instagram_loop(self, wait_time=WAIT_TIME):
