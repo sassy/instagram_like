@@ -10,13 +10,13 @@ class InstagramAgent(object):
         self.username = username
         self.password = password
 
-
     def like_instagram(self):
         driver = webdriver.Chrome('./chromedriver')
         driver.get(URL)
         driver.find_element_by_class_name('_b93kq').click()
-        driver.find_element_by_name('username').send_keys(self.username)
-        driver.find_element_by_name('password').send_keys(self.password)
+        send_key = lambda x, y: driver.find_element_by_name(x).send_keys(y)
+        send_key('username', self.username)
+        send_key('password', self.password)
         driver.implicitly_wait(2)
         driver.find_elements_by_tag_name('button')[0].submit()
         for i in range(5):
