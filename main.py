@@ -28,9 +28,12 @@ class InstagramAgent(object):
         driver.quit()
 
     def like_instagram_loop(self, wait_time=WAIT_TIME):
-        while True:
-            self.like_instagram()
-            time.sleep(wait_time)
+        try:
+            while True:
+                self.like_instagram()
+                time.sleep(wait_time)
+        except KeyboardInterrupt:
+            print('interrupt')
 
 
 if __name__ == '__main__':
