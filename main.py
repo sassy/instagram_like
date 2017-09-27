@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 import time
 
 URL = "https://www.instagram.com/?hl=ja"
@@ -22,7 +23,10 @@ class InstagramAgent(object):
         for i in range(5):
             tags = driver.find_elements_by_class_name('coreSpriteHeartOpen')
             for tag in tags:
-                tag.click()
+                try:
+                    tag.click()
+                except WebDriverException:
+                    print('WebDriverException')
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(WAIT_LOADING_TIME)
         driver.quit()
